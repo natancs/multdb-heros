@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=natan
+      - POSTGRES_PASSWORD=minhasenha
+      - POSTGRES_DB=heros
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    links:
+      - postgres:postgres
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    ports:
+      - "27017:27017"
+
+  mongoclient:
+    image: mongoclient/mongoclient
+    container_name: mongoclient
+    ports:
+      - "3000:3000"
+    links:
+     - mongodb:mongodb
